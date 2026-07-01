@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, Play, Eye, Maximize2, MoveRight, Instagram, Dribbble, Download } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Play, Eye, Maximize2, MoveRight, Instagram, Download } from "lucide-react";
 import DemoLayout from "@/components/DemoLayout";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -299,7 +299,7 @@ export default function CreativoDemo() {
               <p className="text-sm text-white/60">Available for remote work worldwide.</p>
             </div>
             <div className="flex justify-start md:justify-end gap-6">
-              {[Instagram, Dribbble].map((Icon, i) => (
+              {[Instagram].map((Icon, i) => (
                 <a key={i} href="#" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-colors"
                   onMouseEnter={() => setCursorVariant("text")} onMouseLeave={() => setCursorVariant("default")}>
                   <Icon size={20} />
