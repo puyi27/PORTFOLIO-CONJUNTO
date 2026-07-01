@@ -72,7 +72,7 @@ function DemoBentoCard({ project, index }) {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <Link href={project.href}>
+    <Link href={project.href} style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
       <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 30 }}
@@ -90,18 +90,23 @@ function DemoBentoCard({ project, index }) {
           display: 'flex',
           flexDirection: 'column',
           boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+          height: '100%'
         }}
         className={`bento-card bento-span-c${project.colSpan} bento-span-r${project.rowSpan} group`}
       >
         {/* Background Image Preview */}
         <div 
           className="absolute inset-0 z-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700 bg-cover bg-center"
-          style={{ backgroundImage: `url(${project.image || ''})`, filter: 'grayscale(60%)' }}
+          style={{ 
+            backgroundImage: `url(${project.image || ''}), linear-gradient(135deg, rgba(47,39,206,0.2) 0%, rgba(5,3,21,1) 100%)`, 
+            filter: 'grayscale(60%)',
+            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 
+          }}
         />
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#050315] via-[#050315]/80 to-transparent" />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to top, rgba(5,3,21,1) 0%, rgba(5,3,21,0.8) 50%, transparent 100%)', zIndex: 0 }} />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col h-full p-8">
+        <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%', padding: '2rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
             <span style={{ 
               fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.15em',

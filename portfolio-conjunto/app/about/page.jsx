@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, Code2, Database, LayoutTemplate, Server, Cpu, Workflow } from 'lucide-react';
+import { ArrowUpRight, LayoutTemplate, Database } from 'lucide-react';
 
 const ANGEL_SKILLS = ['React / Next.js', 'WebGL / Three.js', 'Framer Motion', 'UI/UX Architecture', 'TailwindCSS', 'GSAP'];
 const LUCAS_SKILLS = ['Node.js', 'Supabase', 'PostgreSQL', 'n8n Automation', 'Docker', 'AWS / Vercel'];
@@ -20,12 +19,16 @@ function StatItem({ value, label, index }) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="flex flex-col items-center text-center p-8 bg-white/5 border border-white/10 rounded-3xl"
+      style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+        padding: '2rem', background: 'rgba(255,255,255,0.02)',
+        border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px'
+      }}
     >
-      <span className="font-display font-medium text-[clamp(2.5rem,4vw,3.5rem)] text-white leading-none mb-2 tracking-tight">
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: 'clamp(2.5rem,4vw,3.5rem)', color: 'var(--text-primary)', lineHeight: 1, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
         {value}
       </span>
-      <span className="font-mono text-xs uppercase tracking-widest text-[#2f27ce]">
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--gold)' }}>
         {label}
       </span>
     </motion.div>
@@ -34,80 +37,65 @@ function StatItem({ value, label, index }) {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#050315] text-[#fbfbfe] selection:bg-[#2f27ce]/30">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', color: 'var(--text-primary)', paddingTop: 'calc(var(--section-pad-y) * 1.5)', paddingBottom: 'var(--section-pad-y)' }}>
       
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#050315]/50 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-3 text-neutral-400 hover:text-white transition-colors group">
-            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/5">
-              <ArrowLeft size={16} />
-            </div>
-            <span className="font-medium tracking-wide">Volver al Home</span>
-          </Link>
-          <div className="font-mono text-sm tracking-widest uppercase text-neutral-500">
-            Los Arquitectos
-          </div>
-        </div>
-      </nav>
-
-      <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+      <main className="container">
         
         {/* Header */}
-        <div className="mb-20 text-center max-w-4xl mx-auto">
+        <div style={{ marginBottom: '5rem', textAlign: 'center', maxWidth: '900px', margin: '0 auto 5rem auto' }}>
           <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-            className="inline-block px-4 py-1.5 rounded-full border border-[#2f27ce]/30 bg-[#2f27ce]/10 text-[#2f27ce] font-mono text-xs tracking-widest uppercase mb-6"
+            className="section-label"
           >
             Nuestra Esencia
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-[clamp(2.5rem,5vw,4.5rem)] font-bold tracking-tighter leading-tight mb-6"
+            style={{ fontSize: 'clamp(2.5rem,5vw,4.5rem)', fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.5rem' }}
           >
-            No usamos plantillas. <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2f27ce] to-[#dedcff]">Escribimos código nativo.</span>
+            No usamos plantillas. <br />
+            <span style={{ color: 'var(--accent)', fontStyle: 'italic' }}>Escribimos código nativo.</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-            className="text-lg text-neutral-400 leading-relaxed max-w-2xl mx-auto"
+            style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: 1.8, maxWidth: '700px', margin: '0 auto' }}
           >
             Combinamos una obsesión enfermiza por la estética frontend con arquitecturas backend sólidas como rocas. El resultado son productos digitales B2B inquebrantables.
           </motion.p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '6rem' }}>
           {STATS.map((s, i) => <StatItem key={i} index={i} {...s} />)}
         </div>
 
-        {/* The Architects - Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* The Architects - Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
           
           {/* Angel Postigo - Frontend Architect */}
           <motion.div 
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-            className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden flex flex-col group"
+            style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
           >
-            <div className="p-8 md:p-12 flex-1">
-              <div className="flex justify-between items-start mb-8">
+            <div style={{ padding: '3rem', flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
                 <div>
-                  <h3 className="text-3xl font-bold tracking-tight mb-2">Ángel Postigo</h3>
-                  <div className="font-mono text-sm tracking-widest text-[#2f27ce] uppercase">Frontend Architect</div>
+                  <h3 style={{ fontSize: '2rem', fontWeight: 500, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>Ángel Postigo</h3>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', letterSpacing: '0.15em', color: 'var(--gold)', textTransform: 'uppercase' }}>Frontend Architect</div>
                 </div>
-                <div className="w-12 h-12 rounded-2xl bg-[#2f27ce]/20 flex items-center justify-center border border-[#2f27ce]/30 text-[#dedcff]">
+                <div style={{ width: 48, height: 48, borderRadius: '16px', background: 'var(--gold-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--gold)', color: 'var(--accent)' }}>
                   <LayoutTemplate size={24} />
                 </div>
               </div>
-              <p className="text-neutral-400 leading-relaxed mb-8">
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '2rem' }}>
                 Responsable de la capa visual y la interacción. Traduzco la complejidad técnica del negocio en interfaces hiper-fluidas, minimalistas y con un nivel de pulido técnico reservado para el ecosistema venture-backed.
               </p>
               
-              <div className="mb-6">
-                <h4 className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-4">Tech Stack Principal</h4>
-                <div className="flex flex-wrap gap-2">
+              <div style={{ marginBottom: '1.5rem' }}>
+                <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-muted)', marginBottom: '1rem' }}>Tech Stack Principal</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                   {ANGEL_SKILLS.map(skill => (
-                    <span key={skill} className="px-3 py-1.5 rounded-md bg-white/5 border border-white/5 text-sm text-neutral-300">
+                    <span key={skill} style={{ padding: '0.4rem 0.8rem', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.85rem', color: 'var(--accent)' }}>
                       {skill}
                     </span>
                   ))}
@@ -116,22 +104,25 @@ export default function AboutPage() {
             </div>
 
             {/* Iframe Preview */}
-            <div className="relative aspect-[16/10] bg-black border-t border-white/10 overflow-hidden">
-              <div className="absolute top-4 right-4 z-10">
+            <div style={{ position: 'relative', aspectRatio: '16/10', background: '#000', borderTop: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
                 <a 
                   href="https://porfolio-apr.vercel.app/#inicio" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-md border border-white/20 rounded-full text-xs font-mono uppercase tracking-widest hover:bg-white hover:text-black transition-colors"
+                  className="btn-ghost"
+                  style={{ padding: '0.5rem 1rem', fontSize: '0.75rem', borderRadius: '100px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)', textDecoration: 'none' }}
                 >
-                  Visitar Portfolio <ArrowUpRight size={14} />
+                  Visitar Portfolio <ArrowUpRight size={14} style={{ marginLeft: '0.5rem' }} />
                 </a>
               </div>
               <iframe 
                 src="https://porfolio-apr.vercel.app/#inicio" 
-                className="w-full h-full border-none opacity-80 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none md:pointer-events-auto"
+                style={{ width: '100%', height: '100%', border: 'none', opacity: 0.8, transition: 'opacity 0.5s' }}
                 title="Portfolio de Ángel"
                 loading="lazy"
+                onMouseEnter={(e) => e.target.style.opacity = 1}
+                onMouseLeave={(e) => e.target.style.opacity = 0.8}
               />
             </div>
           </motion.div>
@@ -139,27 +130,27 @@ export default function AboutPage() {
           {/* Lucas Olias - Backend Architect */}
           <motion.div 
             initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
-            className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden flex flex-col group"
+            style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
           >
-            <div className="p-8 md:p-12 flex-1">
-              <div className="flex justify-between items-start mb-8">
+            <div style={{ padding: '3rem', flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
                 <div>
-                  <h3 className="text-3xl font-bold tracking-tight mb-2">Lucas Olías</h3>
-                  <div className="font-mono text-sm tracking-widest text-[#433bff] uppercase">Backend & Cloud Architect</div>
+                  <h3 style={{ fontSize: '2rem', fontWeight: 500, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>Lucas Olías</h3>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', letterSpacing: '0.15em', color: 'var(--gold)', textTransform: 'uppercase' }}>Backend & Cloud Architect</div>
                 </div>
-                <div className="w-12 h-12 rounded-2xl bg-[#433bff]/20 flex items-center justify-center border border-[#433bff]/30 text-[#dedcff]">
+                <div style={{ width: 48, height: 48, borderRadius: '16px', background: 'var(--gold-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--gold)', color: 'var(--accent)' }}>
                   <Database size={24} />
                 </div>
               </div>
-              <p className="text-neutral-400 leading-relaxed mb-8">
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '2rem' }}>
                 Responsable de la infraestructura y los datos. Diseño arquitecturas relacionales robustas, APIs hiper-rápidas y flujos de automatización que garantizan que el negocio opere de forma inquebrantable 24/7.
               </p>
               
-              <div className="mb-6">
-                <h4 className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-4">Tech Stack Principal</h4>
-                <div className="flex flex-wrap gap-2">
+              <div style={{ marginBottom: '1.5rem' }}>
+                <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-muted)', marginBottom: '1rem' }}>Tech Stack Principal</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                   {LUCAS_SKILLS.map(skill => (
-                    <span key={skill} className="px-3 py-1.5 rounded-md bg-white/5 border border-white/5 text-sm text-neutral-300">
+                    <span key={skill} style={{ padding: '0.4rem 0.8rem', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.85rem', color: 'var(--accent)' }}>
                       {skill}
                     </span>
                   ))}
@@ -168,22 +159,25 @@ export default function AboutPage() {
             </div>
 
             {/* Iframe Preview */}
-            <div className="relative aspect-[16/10] bg-black border-t border-white/10 overflow-hidden">
-              <div className="absolute top-4 right-4 z-10">
+            <div style={{ position: 'relative', aspectRatio: '16/10', background: '#000', borderTop: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
                 <a 
                   href="https://portfolio-six-pink-86.vercel.app/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-md border border-white/20 rounded-full text-xs font-mono uppercase tracking-widest hover:bg-white hover:text-black transition-colors"
+                  className="btn-ghost"
+                  style={{ padding: '0.5rem 1rem', fontSize: '0.75rem', borderRadius: '100px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)', textDecoration: 'none' }}
                 >
-                  Visitar Portfolio <ArrowUpRight size={14} />
+                  Visitar Portfolio <ArrowUpRight size={14} style={{ marginLeft: '0.5rem' }} />
                 </a>
               </div>
               <iframe 
                 src="https://portfolio-six-pink-86.vercel.app/" 
-                className="w-full h-full border-none opacity-80 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none md:pointer-events-auto"
+                style={{ width: '100%', height: '100%', border: 'none', opacity: 0.8, transition: 'opacity 0.5s' }}
                 title="Portfolio de Lucas"
                 loading="lazy"
+                onMouseEnter={(e) => e.target.style.opacity = 1}
+                onMouseLeave={(e) => e.target.style.opacity = 0.8}
               />
             </div>
           </motion.div>

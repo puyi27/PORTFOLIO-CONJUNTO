@@ -26,70 +26,56 @@ export default function DemosCatalog() {
     : ALL_DEMOS.filter(d => d.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-[#050315] text-[#fbfbfe] selection:bg-[#2f27ce]/30">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', color: 'var(--text-primary)', paddingBottom: 'var(--section-pad-y)' }}>
       
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#050315]/50 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-3 text-neutral-400 hover:text-white transition-colors group">
-            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/5">
-              <ArrowLeft size={16} />
-            </div>
-            <span className="font-medium tracking-wide">Volver al Home</span>
-          </Link>
-          <div className="font-mono text-sm tracking-widest uppercase text-neutral-500">
-            Catálogo Completo
-          </div>
-        </div>
-      </nav>
 
-      <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+
+      <main className="container" style={{ paddingTop: 'calc(var(--section-pad-y) * 1.2)' }}>
         
         {/* Header */}
-        <div className="mb-16">
+        <div style={{ marginBottom: '4rem' }}>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-            className="text-[clamp(3rem,6vw,5rem)] font-bold tracking-tighter leading-tight mb-6"
+            style={{ fontSize: 'clamp(3rem,6vw,5rem)', fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.5rem' }}
           >
-            Directorio de <span className="text-[#2f27ce] italic">Demos.</span>
+            Directorio de <span style={{ color: 'var(--gold)', fontStyle: 'italic' }}>Demos.</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-            className="text-lg text-neutral-400 max-w-2xl leading-relaxed"
+            style={{ fontSize: '1.1rem', color: 'var(--text-muted)', maxWidth: '700px', lineHeight: 1.8 }}
           >
-            22 experiencias interactivas optimizadas para rendimiento y diseñadas para convertir. Filtra por industria y explora la que más se adapte a tu visión.
+            6 experiencias interactivas optimizadas para rendimiento y diseñadas para convertir. Filtra por industria y explora la que más se adapte a tu visión.
           </motion.p>
         </div>
 
         {/* Toolbar */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 border-b border-white/10 pb-6">
-          
-          <div className="flex flex-wrap gap-2">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem', marginBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeCategory === cat 
-                    ? 'bg-[#2f27ce] text-white shadow-[0_0_20px_rgba(47,39,206,0.4)]' 
-                    : 'bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white border border-white/5'
-                }`}
+                style={{
+                  padding: '0.5rem 1rem', borderRadius: '100px', fontSize: '0.85rem', fontWeight: 500, cursor: 'pointer', transition: 'all 0.3s', border: '1px solid rgba(255,255,255,0.05)',
+                  background: activeCategory === cat ? 'var(--gold)' : 'rgba(255,255,255,0.05)',
+                  color: activeCategory === cat ? '#fff' : 'var(--text-muted)',
+                }}
               >
                 {cat}
               </button>
             ))}
           </div>
 
-          <div className="flex items-center gap-2 border border-white/10 rounded-full p-1 bg-black/20 hidden md:flex">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '100px', padding: '0.25rem', background: 'rgba(0,0,0,0.2)' }}>
             <button 
               onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-full transition-colors ${viewMode === 'grid' ? 'bg-white/10 text-white' : 'text-neutral-500 hover:text-white'}`}
+              style={{ padding: '0.5rem', borderRadius: '50%', cursor: 'pointer', border: 'none', background: viewMode === 'grid' ? 'rgba(255,255,255,0.1)' : 'transparent', color: viewMode === 'grid' ? '#fff' : 'var(--text-muted)' }}
             >
               <Grid3x3 size={18} />
             </button>
             <button 
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-full transition-colors ${viewMode === 'list' ? 'bg-white/10 text-white' : 'text-neutral-500 hover:text-white'}`}
+              style={{ padding: '0.5rem', borderRadius: '50%', cursor: 'pointer', border: 'none', background: viewMode === 'list' ? 'rgba(255,255,255,0.1)' : 'transparent', color: viewMode === 'list' ? '#fff' : 'var(--text-muted)' }}
             >
               <LayoutList size={18} />
             </button>
@@ -99,10 +85,12 @@ export default function DemosCatalog() {
         {/* Demos Grid / List */}
         <motion.div 
           layout
-          className={viewMode === 'grid' 
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            : "flex flex-col gap-4"
-          }
+          style={{
+            display: viewMode === 'grid' ? 'grid' : 'flex',
+            gridTemplateColumns: viewMode === 'grid' ? 'repeat(auto-fill, minmax(320px, 1fr))' : 'none',
+            flexDirection: viewMode === 'list' ? 'column' : 'row',
+            gap: '2rem'
+          }}
         >
           {filteredDemos.map((demo, idx) => (
             <motion.div
@@ -113,35 +101,39 @@ export default function DemosCatalog() {
               transition={{ duration: 0.4 }}
               key={demo.id}
             >
-              <Link href={`/demo/${demo.id}`} className="group block">
+              <Link href={`/demo/${demo.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
                 {viewMode === 'grid' ? (
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-white/5">
+                  <div style={{ position: 'relative', aspectRatio: '4/3', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)' }}>
                     <div 
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 filter grayscale-[50%] group-hover:grayscale-0"
-                      style={{ backgroundImage: `url(${demo.img || ''})` }}
+                      style={{ 
+                        position: 'absolute', inset: 0, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'transform 0.7s, filter 0.7s', filter: 'grayscale(50%)',
+                        backgroundImage: `url(${demo.img || ''}), linear-gradient(135deg, rgba(47,39,206,0.2) 0%, rgba(5,3,21,1) 100%)` 
+                      }}
+                      onMouseEnter={(e) => { e.target.style.transform = 'scale(1.05)'; e.target.style.filter = 'grayscale(0%)'; }}
+                      onMouseLeave={(e) => { e.target.style.transform = 'scale(1)'; e.target.style.filter = 'grayscale(50%)'; }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)', pointerEvents: 'none' }} />
                     
-                    <div className="absolute bottom-0 left-0 w-full p-6 flex justify-between items-end">
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', pointerEvents: 'none' }}>
                       <div>
-                        <span className="font-mono text-xs uppercase tracking-widest text-[#dedcff] mb-2 block">{demo.category}</span>
-                        <h3 className="text-2xl font-semibold text-white tracking-tight">{demo.title}</h3>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--accent)', marginBottom: '0.5rem', display: 'block' }}>{demo.category}</span>
+                        <h3 style={{ fontSize: '1.5rem', fontWeight: 600, color: '#fff', letterSpacing: '-0.02em' }}>{demo.title}</h3>
                       </div>
-                      <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-[#2f27ce] transition-colors">
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                         <ArrowUpRight size={18} />
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between p-6 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
-                    <div className="flex items-center gap-8">
-                      <div className="w-24 h-16 rounded-lg bg-white/10 bg-cover bg-center" style={{ backgroundImage: `url(${demo.img || ''})` }} />
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)', transition: 'background 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'} onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                      <div style={{ width: 96, height: 64, borderRadius: '8px', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: `url(${demo.img || ''}), linear-gradient(135deg, rgba(47,39,206,0.2) 0%, rgba(5,3,21,1) 100%)` }} />
                       <div>
-                        <h3 className="text-xl font-semibold text-white tracking-tight mb-1">{demo.title}</h3>
-                        <span className="font-mono text-xs uppercase tracking-widest text-neutral-400">{demo.category}</span>
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#fff', letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>{demo.title}</h3>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-muted)' }}>{demo.category}</span>
                       </div>
                     </div>
-                    <div className="text-neutral-500 group-hover:text-[#2f27ce] transition-colors">
+                    <div style={{ color: 'var(--text-muted)' }}>
                       <ArrowUpRight size={24} />
                     </div>
                   </div>
@@ -152,7 +144,7 @@ export default function DemosCatalog() {
         </motion.div>
 
         {filteredDemos.length === 0 && (
-          <div className="py-32 text-center text-neutral-500">
+          <div style={{ padding: '8rem 0', textAlign: 'center', color: 'var(--text-muted)' }}>
             No se encontraron demos en esta categoría.
           </div>
         )}
