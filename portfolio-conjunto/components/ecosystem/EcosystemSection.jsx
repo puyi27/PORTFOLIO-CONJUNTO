@@ -1,238 +1,152 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Database, LayoutTemplate, Workflow, Cpu, Shield, Zap } from 'lucide-react';
 
-const LOG_MESSAGES = [
-  '[200] GET /api/v1/auth/session - 12ms',
-  '[201] POST /rest/v1/leads_showroom - 45ms',
-  '[SUPABASE] Realtime connection established.',
-  '[N8N] Webhook triggered: handle_new_lead',
-  '[OPENAI] Streaming chat completion...',
-  '[EDGE] Cache HIT: /catalogo/industrial',
-  '[STRIPE] Event checkout.session.completed',
-  '[DB] Query: SELECT * FROM users WHERE active = true - 8ms',
+const BENTO_ITEMS = [
+  {
+    id: 'frontend',
+    colSpan: 2, rowSpan: 2,
+    icon: <LayoutTemplate size={32} color="var(--gold)" />,
+    title: 'Frontend Architecture',
+    desc: 'Construimos interfaces ultrarrápidas con Next.js y React. Optimizamos el renderizado para un Time To Interactive (TTI) instantáneo.',
+    tags: ['Next.js 14', 'Framer Motion', 'WebGL']
+  },
+  {
+    id: 'backend',
+    colSpan: 1, rowSpan: 2,
+    icon: <Database size={32} color="var(--accent)" />,
+    title: 'PostgreSQL & Supabase',
+    desc: 'Arquitectura de datos relacional altamente estructurada y escalable. Cero pérdida de datos.',
+    tags: ['RLS Auth', 'Edge Functions']
+  },
+  {
+    id: 'workflow',
+    colSpan: 1, rowSpan: 1,
+    icon: <Workflow size={24} color="#27c93f" />,
+    title: 'Automatización',
+    desc: 'n8n & Webhooks para conectar todo tu ecosistema.',
+    tags: ['n8n']
+  },
+  {
+    id: 'performance',
+    colSpan: 1, rowSpan: 1,
+    icon: <Zap size={24} color="#ffbd2e" />,
+    title: 'Rendimiento',
+    desc: 'Auditorías de Lighthouse al 100%.',
+    tags: ['Vercel']
+  },
+  {
+    id: 'security',
+    colSpan: 1, rowSpan: 1,
+    icon: <Shield size={24} color="#ff5f56" />,
+    title: 'Seguridad B2B',
+    desc: 'Encriptación y control de acceso robusto.',
+    tags: ['JWT']
+  }
 ];
 
-function CodeLogger() {
-  const [logs, setLogs] = useState([]);
-
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setLogs(prev => {
-        const newLogs = [...prev, LOG_MESSAGES[i % LOG_MESSAGES.length]];
-        if (newLogs.length > 6) newLogs.shift();
-        return newLogs;
-      });
-      i++;
-    }, 1500);
-    return () => clearInterval(interval);
-  }, []);
-
+function BentoCard({ item, index }) {
   return (
-    <div style={{
-      fontFamily: 'var(--font-mono)', fontSize: '0.65rem',
-      color: 'var(--text-muted)', lineHeight: 1.8,
-      background: 'rgba(5, 5, 5, 0.5)', padding: '1.5rem',
-      borderRadius: 0, height: '100%', display: 'flex', flexDirection: 'column',
-      justifyContent: 'flex-end', overflow: 'hidden', border: 'var(--border-delicate)',
-      position: 'relative'
-    }}>
-      <div style={{ position: 'absolute', top: '1rem', right: '1rem', color: 'var(--gold)' }}>● Live</div>
-      {logs.map((log, i) => (
-        <div key={i} className="fade-in-log" style={{ animation: 'fadeLog 0.3s ease forwards' }}>
-          {log.includes('[200]') || log.includes('[201]') || log.includes('HIT') 
-            ? <span style={{ color: '#4ade80' }}>{log}</span>
-            : log.includes('STRIPE') || log.includes('OPENAI') || log.includes('N8N') 
-            ? <span style={{ color: 'var(--gold)' }}>{log}</span>
-            : log}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      whileHover={{ y: -5, scale: 0.98 }}
+      className={`bento-span-c${item.colSpan} bento-span-r${item.rowSpan}`}
+      style={{
+        background: 'rgba(255,255,255,0.02)',
+        backdropFilter: 'blur(12px)',
+        border: 'var(--border-delicate)',
+        borderRadius: '24px',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        cursor: 'default',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        <div style={{ marginBottom: '1.5rem', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '16px', display: 'inline-flex' }}>
+          {item.icon}
         </div>
-      ))}
-      <style>{`
-        @keyframes fadeLog {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
-    </div>
-  );
-}
+        <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '1rem', fontWeight: 500 }}>
+          {item.title}
+        </h3>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6, fontWeight: 300 }}>
+          {item.desc}
+        </p>
+      </div>
 
-function JsonDisplay() {
-  return (
-    <div style={{
-      fontFamily: 'var(--font-mono)', fontSize: '0.65rem',
-      color: 'var(--text-muted)', lineHeight: 1.6,
-      background: 'rgba(5, 5, 5, 0.5)', padding: '1.5rem',
-      border: 'var(--border-delicate)', height: '100%'
-    }}>
-<pre style={{ margin: 0 }}>
-{`{
-  "stack": {
-    "framework": "Next.js 14",
-    "rendering": "RSC + SSR",
-    "styling": "TailwindCSS",
-    "animation": "GSAP / Lenis"
-  },
-  "performance": {
-    "lighthouse": 100,
-    "cls": 0,
-    "lcp": "< 0.8s"
-  }
-}`}
-</pre>
-    </div>
+      <div style={{ position: 'relative', zIndex: 10, marginTop: '2rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        {item.tags.map(tag => (
+          <span key={tag} style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--gold)',
+            background: 'var(--gold-dim)', padding: '0.25rem 0.75rem', borderRadius: '99px', letterSpacing: '0.1em'
+          }}>
+            {tag}
+          </span>
+        ))}
+      </div>
+      
+      {/* Subtle Glow on hover via CSS pseudo-element is complex in inline styles, using standard CSS for hover glow is better. We will rely on Framer Motion scaling here. */}
+    </motion.div>
   );
 }
 
 export default function EcosystemSection() {
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    let ctx;
-    const init = async () => {
-      const gsap = (await import('gsap')).default;
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      gsap.registerPlugin(ScrollTrigger);
-
-      ctx = gsap.context(() => {
-        gsap.fromTo('.eco-reveal',
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', stagger: 0.15,
-            scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', once: true },
-          }
-        );
-      });
-    };
-    init();
-    return () => ctx?.revert();
-  }, []);
-
   return (
-    <section id="ecosistema" ref={sectionRef} style={{
-      padding: 'var(--section-pad-y) var(--section-pad-x)',
+    <section id="ecosistema" style={{
+      padding: 'var(--section-pad-y) 0',
       background: 'var(--bg-surface)',
-      position: 'relative',
       borderBottom: 'var(--border-delicate)',
+      position: 'relative'
     }}>
-      <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+      <div className="container">
         
-        {/* Header */}
-        <div className="eco-reveal" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '6rem' }}>
-          <div className="section-label">Infraestructura</div>
-          <h2 style={{ color: 'var(--text-primary)', maxWidth: '50rem' }}>
-            El motor bajo el capó.<br />
-            <span className="text-gold" style={{ fontStyle: 'italic' }}>Stack de nueva generación.</span>
+        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+          <div className="section-label">El Ecosistema</div>
+          <h2 style={{ color: 'var(--text-primary)', maxWidth: '40rem', margin: '0 auto' }}>
+            Nuestra ventaja <span className="text-gold" style={{ fontStyle: 'italic' }}>técnica.</span>
           </h2>
           <p style={{
-            fontFamily: 'var(--font-body)', fontSize: '1rem',
-            color: 'var(--text-muted)', maxWidth: '42rem', marginTop: '2rem', lineHeight: 1.8, fontWeight: 300
+            fontFamily: 'var(--font-body)', color: 'var(--text-muted)',
+            fontSize: '1rem', maxWidth: '35rem', margin: '1.5rem auto 0', lineHeight: 1.8, fontWeight: 300
           }}>
-            No dependemos de plugins pesados ni CMS anticuados. Construimos sobre
-            arquitecturas serverless, bases de datos en tiempo real y APIs de 
-            inteligencia artificial para escalar sin límites.
+            No usamos plantillas ni constructores visuales lentos. Escribimos código moderno, 
+            diseñamos bases de datos relacionales robustas y optimizamos cada milisegundo.
           </p>
         </div>
 
-        {/* Bento Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(12, 1fr)',
-          gap: '1.5rem',
-          gridAutoRows: 'minmax(280px, auto)'
-        }}>
-          
-          {/* Card 1: Backend / BaaS (Large) */}
-          <div className="eco-reveal" style={{
-            gridColumn: 'span 8',
-            border: 'var(--border-delicate)',
-            padding: '3rem',
-            display: 'flex', gap: '3rem',
-            background: 'rgba(255,255,255,0.02)',
-            position: 'relative', overflow: 'hidden'
-          }}>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '1rem' }}>Data & Auth</div>
-              <h3 style={{ color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: 400, marginBottom: '1rem' }}>BaaS en Tiempo Real</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.8, fontWeight: 300, marginBottom: '2rem' }}>
-                PostgreSQL hiperescalable. Suscripciones a la base de datos en milisegundos y Edge Functions para lógica distribuida.
-              </p>
-              <div style={{ display: 'flex', gap: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-primary)' }}>
-                <span>[ SUPABASE ]</span>
-                <span>[ NODE.JS ]</span>
-              </div>
-            </div>
-            <div style={{ flex: 1, minWidth: 250 }}>
-              <CodeLogger />
-            </div>
-          </div>
-
-          {/* Card 2: Frontend (Small) */}
-          <div className="eco-reveal" style={{
-            gridColumn: 'span 4',
-            border: 'var(--border-delicate)',
-            padding: '3rem',
-            background: 'rgba(255,255,255,0.02)',
-            display: 'flex', flexDirection: 'column'
-          }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '1rem' }}>Frontend</div>
-            <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', fontWeight: 400, marginBottom: '1rem' }}>Rendimiento Extremo</h3>
-            <div style={{ flex: 1, marginTop: '1rem' }}>
-              <JsonDisplay />
-            </div>
-          </div>
-
-          {/* Card 3: Automation & AI (Large) */}
-          <div className="eco-reveal" style={{
-            gridColumn: 'span 7',
-            border: 'var(--border-delicate)',
-            padding: '3rem',
-            background: 'rgba(255,255,255,0.02)',
-            position: 'relative'
-          }}>
-            <div style={{ position: 'absolute', top: '3rem', right: '3rem', opacity: 0.1 }}>
-              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/><path d="M8 12h.01"/><path d="M16 12h.01"/>
-              </svg>
-            </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '1rem' }}>AI & Ops</div>
-            <h3 style={{ color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: 400, marginBottom: '1rem' }}>Autómatas y LLMs</h3>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.8, fontWeight: 300, maxWidth: '28rem' }}>
-              Sustituimos el trabajo manual con flujos n8n y modelos fundacionales (OpenAI / Anthropic). Desde clasificación de leads hasta análisis predictivo integrado en el CRM.
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-primary)', marginTop: '2.5rem' }}>
-              <span>[ n8n ]</span>
-              <span>[ OPENAI ]</span>
-              <span>[ STRIPE ]</span>
-            </div>
-          </div>
-
-          {/* Card 4: WebGL (Small) */}
-          <div className="eco-reveal" style={{
-            gridColumn: 'span 5',
-            border: 'var(--border-delicate)',
-            padding: '3rem',
-            background: 'rgba(255,255,255,0.02)',
-            display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center'
-          }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '1rem' }}>Motion & 3D</div>
-            <h3 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', fontWeight: 400, marginBottom: '1rem' }}>Física y Shaders</h3>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.8, fontWeight: 300 }}>
-              Cálculos matemáticos en la GPU mediante WebGL y react-three-fiber para crear experiencias inmersivas imposibles con CSS tradicional.
-            </p>
-          </div>
-
+        <div className="bento-grid">
+          {BENTO_ITEMS.map((item, i) => (
+            <BentoCard key={item.id} item={item} index={i} />
+          ))}
         </div>
 
       </div>
-      
+
       <style>{`
-        @media (max-width: 1024px) {
-          div[style*="gridColumn: 'span 8'"] { grid-column: span 12 !important; }
-          div[style*="gridColumn: 'span 4'"] { grid-column: span 12 !important; }
-          div[style*="gridColumn: 'span 7'"] { grid-column: span 12 !important; }
-          div[style*="gridColumn: 'span 5'"] { grid-column: span 12 !important; }
+        .bento-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: minmax(180px, auto);
+          gap: 1.5rem;
+        }
+        .bento-span-c2 { grid-column: span 2; }
+        .bento-span-c1 { grid-column: span 1; }
+        .bento-span-r2 { grid-row: span 2; }
+        .bento-span-r1 { grid-row: span 1; }
+
+        @media (max-width: 900px) {
+          .bento-grid { grid-template-columns: repeat(2, 1fr); }
+          .bento-span-c2 { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+          .bento-grid { display: flex; flex-direction: column; gap: 1rem; }
         }
       `}</style>
     </section>

@@ -1,10 +1,10 @@
 /* ===================================================
-   A&L | INGENIERÍA DIGITAL — MINIMALIST LUXURY
-   Paleta: Deep Onyx · Champagne Bronze · Pearl White
-   Vibe: Formal, Elegante, Serio, Alta Gama
+   A&L | INGENIERÍA DIGITAL — THE MASTERPIECE
+   Paleta: Space Blue (#050315) · Indigo (#2f27ce)
+   Vibe: Ultra-Premium, B2B Tech, Escala Global
    =================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
 
 /* ── RESET & BASE ── */
 *, *::before, *::after {
@@ -15,21 +15,23 @@
 
 :root {
   /* ── Background Scale ── */
-  --bg-dark:    #050505;   /* Deep Onyx */
-  --bg-surface: #0a0a0a;   /* Slightly lighter */
-  --bg-panel:   #111111;   /* Elevated surface */
+  --bg-dark:    #050315;   /* Space Blue */
+  --bg-surface: #0a0820;   /* Slightly lighter */
+  --bg-panel:   #121035;   /* Elevated surface */
 
   /* ── Brand Colors ── */
-  --gold:       #C5A059;   /* Champagne Bronze */
-  --gold-dim:   rgba(197, 160, 89, 0.1);
+  --gold:       #2f27ce;   /* Indigo (Mantengo el nombre 'gold' por retrocompatibilidad rápida) */
+  --gold-dim:   rgba(47, 39, 206, 0.15);
+  --accent:     #dedcff;   /* Light Purple */
+  --secondary:  #433bff;   /* Vibrant Blue */
 
   /* ── Text Scale ── */
-  --text-primary: #EAEAEA; /* Pearl White */
-  --text-muted:   #888888; /* Graphite */
+  --text-primary: #fbfbfe; /* Ice White */
+  --text-muted:   #8a89b0; /* Muted Blue/Gray */
 
   /* ── Borders ── */
-  --border-delicate: 1px solid rgba(255, 255, 255, 0.05);
-  --border-gold:     1px solid rgba(197, 160, 89, 0.3);
+  --border-delicate: 1px solid rgba(251, 251, 254, 0.05);
+  --border-gold:     1px solid rgba(47, 39, 206, 0.3);
 
   /* ── Typography ── */
   --font-display: 'Outfit', sans-serif;
@@ -42,7 +44,7 @@
 }
 
 html {
-  scroll-behavior: auto;
+  scroll-behavior: auto; /* Controlado por Lenis */
   overflow-x: hidden;
 }
 
@@ -61,31 +63,31 @@ body {
 /* ── TYPOGRAPHY ── */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
-h1 { font-size: clamp(3rem, 7vw, 6rem); }
+h1 { font-size: clamp(3.5rem, 8vw, 7rem); }
 h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
 h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
 
 /* ── SELECTION ── */
 ::selection {
   background: var(--gold-dim);
-  color: var(--gold);
+  color: var(--accent);
 }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: #222; }
+::-webkit-scrollbar-thumb { background: var(--bg-panel); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
 /* ── CONTAINERS ── */
 .container {
   width: 100%;
-  max-width: 80rem;
+  max-width: 85rem;
   margin: 0 auto;
   padding: 0 var(--section-pad-x);
 }
@@ -94,13 +96,13 @@ h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
 .section-label {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--gold);
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold-dim);
 }
 
 /* ── HIGHLIGHT TEXT ── */
@@ -115,51 +117,49 @@ h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
   justify-content: center;
   gap: 1rem;
   background: var(--text-primary);
-  color: #000;
+  color: var(--bg-dark);
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 1.25rem 2.5rem;
   border: none;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.4s ease;
+  box-shadow: 0 4px 14px 0 rgba(251, 251, 254, 0.1);
 }
 
 .btn-primary:hover {
   background: var(--gold);
   color: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(47, 39, 206, 0.4);
 }
 
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   gap: 1rem;
-  background: transparent;
+  background: rgba(255,255,255,0.02);
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 1.25rem 2.5rem;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.4s ease;
 }
 
 .btn-ghost:hover {
   border-color: var(--gold);
-  color: var(--gold);
-}
-
-/* ── UTILS ── */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  will-change: opacity, transform;
+  color: var(--accent);
+  background: var(--gold-dim);
 }
 
 /* ── RESPONSIVE ── */

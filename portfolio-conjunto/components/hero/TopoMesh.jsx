@@ -73,17 +73,17 @@ const fragmentShader = `
   varying vec2 vUv;
 
   void main() {
-    // Elegant Champagne Gold #C5A059 mixed with Dark Onyx #050505
-    vec3 gold = vec3(0.77, 0.63, 0.35);
-    vec3 onyx = vec3(0.02, 0.02, 0.02);
+    // Indigo Highlights #2f27ce mixed with Space Blue #050315
+    vec3 indigo = vec3(0.18, 0.15, 0.81);
+    vec3 spaceBlue = vec3(0.02, 0.012, 0.08);
     
     // Calculate light reflection based on elevation
     float highlight = smoothstep(0.2, 1.0, vElevation);
     float shadow = smoothstep(-1.0, 0.0, vElevation);
     
     // Very subtle metallic mix
-    vec3 color = mix(onyx, gold * 0.5, highlight * 0.5);
-    color = mix(color, onyx, (1.0 - shadow) * 0.8);
+    vec3 color = mix(spaceBlue, indigo * 0.8, highlight * 0.6);
+    color = mix(color, spaceBlue, (1.0 - shadow) * 0.9);
     
     gl_FragColor = vec4(color, 1.0);
   }

@@ -1,171 +1,182 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const PROJECTS = [
-  { id: 1, title: 'WaaS Industrial', tag: 'Catálogo', desc: 'Plataforma B2B para manufactura.' },
-  { id: 2, title: 'Portal Legal', tag: 'A Medida', desc: 'Extranet corporativa cifrada.' },
-  { id: 3, title: 'Dental CRM', tag: 'A Medida', desc: 'Gestión clínica de alto nivel.' },
-  { id: 4, title: 'Logistics Hub', tag: 'A Medida', desc: 'Control de flotas en tiempo real.' },
-  { id: 5, title: 'WaaS Agro', tag: 'Catálogo', desc: 'E-commerce técnico B2B.' },
-  { id: 6, title: 'WaaS Construct', tag: 'Catálogo', desc: 'Gestión de obras y licitaciones.' },
+  { 
+    id: 'waas-ind', 
+    title: 'WaaS Industrial', 
+    tag: 'Infraestructura', 
+    desc: 'Plataforma B2B para manufactura de precisión. Sistema de catálogos paramétricos en tiempo real.',
+    stack: ['Next.js', 'PostgreSQL', 'WebGL']
+  },
+  { 
+    id: 'legal-portal', 
+    title: 'Portal Legal', 
+    tag: 'Extranet', 
+    desc: 'Entorno cifrado para el intercambio de documentación legal y firmas electrónicas B2B.',
+    stack: ['React', 'Node.js', 'Redis']
+  },
+  { 
+    id: 'dental-crm', 
+    title: 'Dental CRM', 
+    tag: 'SaaS Médico', 
+    desc: 'Gestión integral clínica. Procesamiento de historiales a 60fps con arquitectura Edge.',
+    stack: ['Supabase', 'Tailwind', 'Edge']
+  },
+  { 
+    id: 'logistics-hub', 
+    title: 'Logistics Hub', 
+    tag: 'Dashboard', 
+    desc: 'Control de flotas intercontinentales en tiempo real y predicción de rutas.',
+    stack: ['WebSockets', 'Go', 'React']
+  }
 ];
 
-function ProjectCard({ project }) {
-  return (
-    <div style={{
-      flex: '0 0 clamp(300px, 25vw, 400px)',
-      padding: '0 2rem 2rem 0',
-      display: 'flex', flexDirection: 'column',
-      cursor: 'pointer',
-      position: 'relative',
-    }}
-    className="proj-card"
-    >
-      {/* Dynamic Tech Overlay */}
-      <div className="proj-json-overlay" style={{
-        position: 'absolute', inset: 0, padding: '2rem',
-        background: 'var(--bg-panel)', zIndex: 5,
-        opacity: 0, transition: 'opacity 0.4s ease',
-        display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-muted)',
-        pointerEvents: 'none',
-      }}>
-        <div style={{ color: 'var(--gold)', marginBottom: '1rem' }}>POST /api/v1/projects/{project.id}</div>
-        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
-{JSON.stringify({
-  status: 200,
-  latency: "14ms",
-  payload: {
-    stack: ["Next.js", "Supabase", "Tailwind"],
-    deployed: true,
-    scale: "auto"
-  }
-}, null, 2)}
-        </pre>
-      </div>
+function ProjectCard({ project, index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-      <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '0.65rem',
-          color: 'var(--gold)', textTransform: 'uppercase',
-          letterSpacing: '0.15em', marginBottom: '1rem',
-        }}>
-          {project.tag}
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ scale: 0.98, y: -10 }}
+      whileTap={{ scale: 0.95 }}
+      style={{
+        padding: '3.5rem',
+        background: 'rgba(255,255,255,0.015)',
+        backdropFilter: 'blur(24px)',
+        border: '1px solid rgba(251, 251, 254, 0.05)',
+        borderRadius: '24px',
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '3rem',
+        boxShadow: '0 30px 60px rgba(0,0,0,0.4)',
+      }}
+      className="project-card"
+    >
+      {/* Background Hover Glow */}
+      <div className="hover-glow" style={{
+        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+        background: 'radial-gradient(circle at top right, rgba(47, 39, 206, 0.15), transparent 60%)',
+        opacity: 0, transition: 'opacity 0.5s ease', pointerEvents: 'none'
+      }} />
+
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <span style={{ 
+            fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.15em',
+            color: 'var(--gold)', textTransform: 'uppercase'
+          }}>
+            {project.tag}
+          </span>
+          <div className="arrow-icon" style={{ 
+            width: 32, height: 32, borderRadius: '50%', border: '1px solid var(--gold-dim)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'var(--text-muted)', transition: 'all 0.4s ease'
+          }}>
+            ↗
+          </div>
         </div>
 
-        <h3 style={{ color: 'var(--text-primary)', fontSize: '1.5rem', marginBottom: '1rem', fontWeight: 400 }}>
+        <h3 style={{ 
+          color: 'var(--text-primary)', fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', 
+          fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1.2
+        }}>
           {project.title}
         </h3>
+      </div>
 
-        <p style={{
-          fontFamily: 'var(--font-body)', fontSize: '0.9rem',
-          color: 'var(--text-muted)', lineHeight: 1.6, fontWeight: 300,
-          marginBottom: '2rem'
+      <div style={{ marginTop: 'auto' }}>
+        <p style={{ 
+          fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'var(--text-muted)', 
+          lineHeight: 1.8, fontWeight: 300, marginBottom: '2.5rem'
         }}>
           {project.desc}
         </p>
 
-        <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: '0.65rem',
-            color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.1em'
-          }}>Ver Estudio</span>
-          <div className="proj-line" style={{ width: 40, height: 1, background: 'var(--border-delicate)', transition: 'background 0.4s, width 0.4s' }} />
-        </div>
-      </div>
-
-      <style>{`
-        .proj-card:hover .proj-line {
-          background: var(--gold) !important;
-          width: 80px !important;
-        }
-        .proj-card:hover .proj-json-overlay {
-          opacity: 1 !important;
-        }
-      `}</style>
-    </div>
-  );
-}
-
-export default function ProjectsSection() {
-  const sectionRef = useRef(null);
-  const trackRef = useRef(null);
-
-  useEffect(() => {
-    let ctx;
-    const init = async () => {
-      const gsap = (await import('gsap')).default;
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      gsap.registerPlugin(ScrollTrigger);
-
-      ctx = gsap.context(() => {
-        gsap.to('.proj-head', {
-          opacity: 1, y: 0, duration: 1, ease: 'power2.out', stagger: 0.15,
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
-        });
-
-        const w = trackRef.current.scrollWidth / 2;
-        gsap.to(trackRef.current, {
-          x: -w,
-          duration: 40,
-          ease: 'none',
-          repeat: -1,
-        });
-      }, sectionRef);
-    };
-    init();
-    return () => ctx?.revert();
-  }, []);
-
-  const doubled = [...PROJECTS, ...PROJECTS];
-
-  return (
-    <section id="proyectos" ref={sectionRef} style={{
-      padding: 'var(--section-pad-y) 0',
-      background: 'var(--bg-surface)', // Slightly different bg for contrast
-      position: 'relative',
-      borderBottom: 'var(--border-delicate)',
-      overflow: 'hidden',
-    }}>
-      {/* Header */}
-      <div className="container" style={{ position: 'relative', zIndex: 10, marginBottom: '5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem' }}>
-        <div>
-          <div className="proj-head section-label" style={{ opacity: 0, transform: 'translateY(20px)' }}>El Portfolio</div>
-          <h2 className="proj-head" style={{ color: 'var(--text-primary)', opacity: 0, transform: 'translateY(20px)' }}>
-            Infraestructura<br />
-            <span className="text-gold" style={{ fontStyle: 'italic' }}>en producción.</span>
-          </h2>
-        </div>
-        <p className="proj-head" style={{
-          fontFamily: 'var(--font-body)', color: 'var(--text-muted)',
-          fontSize: '1rem', maxWidth: '28rem', lineHeight: 1.8, fontWeight: 300,
-          opacity: 0, transform: 'translateY(20px)',
-        }}>
-          Una selección de productos WaaS y desarrollos a medida que actualmente procesan operaciones reales para nuestros clientes B2B.
-        </p>
-      </div>
-
-      {/* Carousel */}
-      <div style={{ position: 'relative', zIndex: 10, borderTop: 'var(--border-delicate)', borderBottom: 'var(--border-delicate)', padding: '4rem 0' }}>
-        <div ref={trackRef} style={{
-          display: 'flex', gap: '4rem', padding: '0 var(--section-pad-x)',
-          width: 'max-content',
-        }}>
-          {doubled.map((p, i) => (
-            <div key={i} style={{ borderRight: 'var(--border-delicate)' }}>
-              <ProjectCard project={p} />
-            </div>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          {project.stack.map(tech => (
+            <span key={tech} style={{
+              fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.05em',
+              color: 'var(--text-primary)', padding: '0.5rem 1rem',
+              border: '1px solid rgba(255,255,255,0.05)', borderRadius: '100px',
+              background: 'rgba(255,255,255,0.01)'
+            }}>
+              {tech}
+            </span>
           ))}
         </div>
       </div>
 
-      {/* Footer Action */}
-      <div className="container" style={{ position: 'relative', zIndex: 10, marginTop: '5rem', textAlign: 'center' }}>
-        <a href="https://catalogo-alcala-web.vercel.app" target="_blank" rel="noreferrer"
-          className="btn-ghost" data-cursor-hover>
-          Explorar Catálogo WaaS Complet0
-        </a>
+      <style>{`
+        .project-card:hover .hover-glow { opacity: 1 !important; }
+        .project-card:hover .arrow-icon { 
+          background: var(--gold); 
+          color: white !important; 
+          border-color: var(--gold) !important;
+          transform: rotate(45deg);
+        }
+      `}</style>
+    </motion.div>
+  );
+}
+
+export default function ProjectsSection() {
+  return (
+    <section id="proyectos" style={{
+      padding: 'var(--section-pad-y) 0',
+      background: 'var(--bg-dark)',
+      borderBottom: 'var(--border-delicate)',
+    }}>
+      <div className="container">
+        
+        {/* Massive Typography Headers */}
+        <div style={{ marginBottom: '8rem' }}>
+          <div className="section-label">Casos de Estudio</div>
+          <h2 style={{ color: 'var(--text-primary)', fontSize: 'clamp(3rem, 6vw, 4.5rem)', maxWidth: '50rem' }}>
+            Infraestructura web<br />
+            <span className="text-gold" style={{ fontStyle: 'italic' }}>en producción real.</span>
+          </h2>
+          <p style={{
+            fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--text-muted)',
+            maxWidth: '35rem', marginTop: '2.5rem', lineHeight: 1.8, fontWeight: 300
+          }}>
+            Desarrollos B2B que actualmente procesan operaciones críticas, ventas B2B y logística sin interrupciones.
+          </p>
+        </div>
+
+        {/* Dynamic Asymmetric Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+          gap: '2rem'
+        }}>
+          {PROJECTS.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} />
+          ))}
+        </div>
+
+        {/* Explore More Button */}
+        <div style={{ marginTop: '6rem', textAlign: 'center' }}>
+          <motion.a 
+            href="#"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="btn-ghost"
+            style={{ display: 'inline-flex', padding: '1.5rem 3rem' }}
+          >
+            Explorar Repositorio Completo
+          </motion.a>
+        </div>
+
       </div>
     </section>
   );
