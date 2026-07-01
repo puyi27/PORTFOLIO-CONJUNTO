@@ -6,6 +6,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
 
+@tailwind components;
+@tailwind utilities;
+
 /* ── RESET & BASE ── */
 *, *::before, *::after {
   box-sizing: border-box;

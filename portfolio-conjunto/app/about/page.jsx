@@ -159,7 +159,7 @@ export default function AboutPage() {
             </div>
 
             {/* Iframe Preview */}
-            <div style={{ position: 'relative', aspectRatio: '16/10', background: '#000', borderTop: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', aspectRatio: '16/14', background: '#000', borderTop: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
                 <a 
                   href="https://portfolio-six-pink-86.vercel.app/" 

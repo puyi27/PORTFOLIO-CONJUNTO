@@ -94,19 +94,31 @@ function DemoBentoCard({ project, index }) {
         }}
         className={`bento-card bento-span-c${project.colSpan} bento-span-r${project.rowSpan} group`}
       >
-        {/* Background Image Preview */}
-        <div 
-          className="absolute inset-0 z-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url(${project.image || ''}), linear-gradient(135deg, rgba(47,39,206,0.2) 0%, rgba(5,3,21,1) 100%)`, 
-            filter: 'grayscale(60%)',
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 
-          }}
-        />
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to top, rgba(5,3,21,1) 0%, rgba(5,3,21,0.8) 50%, transparent 100%)', zIndex: 0 }} />
+        {/* Interactive Iframe Preview */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
+          <iframe 
+            src={`${project.href}?preview=true`}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              border: 'none', 
+              opacity: 0.3,
+              filter: 'grayscale(60%)',
+              transition: 'opacity 0.7s, filter 0.7s',
+              pointerEvents: 'none' // Prevent scroll trapping on the homepage
+            }}
+            onMouseEnter={(e) => { e.target.style.opacity = 0.8; e.target.style.filter = 'grayscale(0%)'; }}
+            onMouseLeave={(e) => { e.target.style.opacity = 0.3; e.target.style.filter = 'grayscale(60%)'; }}
+            loading="lazy"
+            title={`Preview of ${project.title}`}
+          />
+        </div>
+        
+        {/* Gradient Overlay for text readability */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to top, rgba(5,3,21,1) 0%, rgba(5,3,21,0.5) 60%, transparent 100%)', zIndex: 0, pointerEvents: 'none' }} />
 
         {/* Content */}
-        <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%', padding: '2rem' }}>
+        <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%', padding: '2rem', pointerEvents: 'none' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
             <span style={{ 
               fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.15em',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 const NAV_LINKS = [
@@ -62,8 +63,18 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const pathname = usePathname();
+  const router = useRouter();
+
   const handleLink = (href) => {
     setMenuOpen(false);
+    
+    // If not on the homepage, route to /#id instead of just scrolling
+    if (pathname !== '/') {
+      router.push(`/${href}`);
+      return;
+    }
+
     const id = href.replace('#', '');
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });

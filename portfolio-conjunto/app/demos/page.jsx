@@ -104,15 +104,26 @@ export default function DemosCatalog() {
               <Link href={`/demo/${demo.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
                 {viewMode === 'grid' ? (
                   <div style={{ position: 'relative', aspectRatio: '4/3', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)' }}>
-                    <div 
-                      style={{ 
-                        position: 'absolute', inset: 0, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'transform 0.7s, filter 0.7s', filter: 'grayscale(50%)',
-                        backgroundImage: `url(${demo.img || ''}), linear-gradient(135deg, rgba(47,39,206,0.2) 0%, rgba(5,3,21,1) 100%)` 
-                      }}
-                      onMouseEnter={(e) => { e.target.style.transform = 'scale(1.05)'; e.target.style.filter = 'grayscale(0%)'; }}
-                      onMouseLeave={(e) => { e.target.style.transform = 'scale(1)'; e.target.style.filter = 'grayscale(50%)'; }}
-                    />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)', pointerEvents: 'none' }} />
+                    {/* Interactive Iframe Preview */}
+                    <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
+                      <iframe 
+                        src={`/demo/${demo.id}?preview=true`}
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          border: 'none', 
+                          opacity: 0.3,
+                          filter: 'grayscale(50%)',
+                          transition: 'opacity 0.7s, filter 0.7s',
+                          pointerEvents: 'none' // Click passes through to Link
+                        }}
+                        onMouseEnter={(e) => { e.target.style.opacity = 0.8; e.target.style.filter = 'grayscale(0%)'; }}
+                        onMouseLeave={(e) => { e.target.style.opacity = 0.3; e.target.style.filter = 'grayscale(50%)'; }}
+                        loading="lazy"
+                        title={`Preview of ${demo.title}`}
+                      />
+                    </div>
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)', pointerEvents: 'none', zIndex: 1 }} />
                     
                     <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', pointerEvents: 'none' }}>
                       <div>
@@ -127,7 +138,21 @@ export default function DemosCatalog() {
                 ) : (
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)', transition: 'background 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'} onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                      <div style={{ width: 96, height: 64, borderRadius: '8px', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: `url(${demo.img || ''}), linear-gradient(135deg, rgba(47,39,206,0.2) 0%, rgba(5,3,21,1) 100%)` }} />
+                      <div style={{ position: 'relative', width: 96, height: 64, borderRadius: '8px', overflow: 'hidden', background: 'rgba(255,255,255,0.05)' }}>
+                        <iframe 
+                          src={`/demo/${demo.id}?preview=true`}
+                          style={{ 
+                            width: '400%', 
+                            height: '400%', 
+                            transform: 'scale(0.25)', 
+                            transformOrigin: '0 0',
+                            border: 'none', 
+                            pointerEvents: 'none'
+                          }}
+                          loading="lazy"
+                          title={`Preview of ${demo.title}`}
+                        />
+                      </div>
                       <div>
                         <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#fff', letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>{demo.title}</h3>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-muted)' }}>{demo.category}</span>

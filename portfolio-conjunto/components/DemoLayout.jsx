@@ -1,17 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 export default function DemoLayout({ title, children }) {
+  const [isPreview, setIsPreview] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('preview') === 'true') {
+        setIsPreview(true);
+        // Prevent scroll when in iframe preview
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  }, []);
+
   return (
     <div style={{ minHeight: '100vh', width: '100%', background: 'var(--bg-dark)', position: 'relative' }}>
       
-      {/* Floating Back Button for Demos */}
-      <div style={{ position: 'fixed', bottom: '2rem', left: '2rem', zIndex: 9999 }}>
-        <Link 
-          href="/demos"
+      {/* Floating Back Button for Demos (Hide in Preview Mode) */}
+      {!isPreview && (
+        <div style={{ position: 'fixed', bottom: '2rem', left: '2rem', zIndex: 9999 }}>
+          <Link 
+            href="/demos"
           style={{ 
             display: 'inline-flex', 
             alignItems: 'center', 
@@ -41,6 +55,7 @@ export default function DemoLayout({ title, children }) {
           Volver a Demos
         </Link>
       </div>
+      )}
 
       {/* Demo Content */}
       <div style={{ width: '100%' }}>
