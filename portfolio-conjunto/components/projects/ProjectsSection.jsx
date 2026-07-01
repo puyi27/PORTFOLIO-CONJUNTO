@@ -2,182 +2,233 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import Link from 'next/link';
 
-const PROJECTS = [
+const BEST_DEMOS = [
   { 
-    id: 'waas-ind', 
-    title: 'WaaS Industrial', 
-    tag: 'Infraestructura', 
-    desc: 'Plataforma B2B para manufactura de precisión. Sistema de catálogos paramétricos en tiempo real.',
-    stack: ['Next.js', 'PostgreSQL', 'WebGL']
+    id: 'saas', 
+    title: 'SaaS Platform', 
+    tag: 'B2B Infrastructure', 
+    desc: 'Panel de control ultra-rápido, telemetría en tiempo real y arquitectura orientada a eventos.',
+    stack: ['Next.js', 'PostgreSQL', 'Framer'],
+    colSpan: 2, rowSpan: 2,
+    image: '/images/demo/saas/hero.jpg',
+    href: '/demo/saas'
   },
   { 
-    id: 'legal-portal', 
-    title: 'Portal Legal', 
-    tag: 'Extranet', 
-    desc: 'Entorno cifrado para el intercambio de documentación legal y firmas electrónicas B2B.',
-    stack: ['React', 'Node.js', 'Redis']
+    id: 'creativo', 
+    title: 'K. Nakamura', 
+    tag: 'Art Direction', 
+    desc: 'Portfolio interactivo inmersivo, WebGL y animaciones hiper-fluidas con GSAP/Framer Motion.',
+    stack: ['WebGL', 'GSAP', 'React'],
+    colSpan: 1, rowSpan: 2,
+    image: '/images/demo/creativo/1.jpg',
+    href: '/demo/creativo'
   },
   { 
-    id: 'dental-crm', 
-    title: 'Dental CRM', 
-    tag: 'SaaS Médico', 
-    desc: 'Gestión integral clínica. Procesamiento de historiales a 60fps con arquitectura Edge.',
-    stack: ['Supabase', 'Tailwind', 'Edge']
+    id: 'premium', 
+    title: 'Maison Noir', 
+    tag: 'Luxury', 
+    desc: 'Minimalismo escandinavo, tipografía serif refinada y micro-interacciones sutiles para marcas de alto nivel.',
+    stack: ['Tailwind', 'Motion', 'Next.js'],
+    colSpan: 1, rowSpan: 2,
+    image: '/images/demo/premium/hero.jpg',
+    href: '/demo/premium'
   },
   { 
-    id: 'logistics-hub', 
-    title: 'Logistics Hub', 
-    tag: 'Dashboard', 
-    desc: 'Control de flotas intercontinentales en tiempo real y predicción de rutas.',
-    stack: ['WebSockets', 'Go', 'React']
+    id: 'tech', 
+    title: 'CyberOS', 
+    tag: 'Cyberphysical', 
+    desc: 'Interfaces oscuras, componentes Sci-Fi y renderizados de datos en 3D.',
+    stack: ['Three.js', 'React', 'Zustand'],
+    colSpan: 1, rowSpan: 1,
+    image: '/images/demo/tech/hero.jpg',
+    href: '/demo/tech'
+  },
+  { 
+    id: 'gaming', 
+    title: 'Vanguard', 
+    tag: 'E-Sports', 
+    desc: 'Dinámicas de alta energía, neon glow y animaciones reactivas para la generación Z.',
+    stack: ['Framer', 'Tailwind', 'Supabase'],
+    colSpan: 1, rowSpan: 1,
+    image: '/images/demo/gaming/hero.jpg',
+    href: '/demo/gaming'
+  },
+  { 
+    id: 'inmobiliaria', 
+    title: 'Aura Estates', 
+    tag: 'Architecture', 
+    desc: 'Visualización de espacios expansivos, galerías interactivas y scroll hiper-suave.',
+    stack: ['Lenis', 'GSAP', 'Next.js'],
+    colSpan: 2, rowSpan: 1,
+    image: '/images/demo/inmobiliaria/hero.jpg',
+    href: '/demo/inmobiliaria'
   }
 ];
 
-function ProjectCard({ project, index }) {
+function DemoBentoCard({ project, index }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 0.98, y: -10 }}
-      whileTap={{ scale: 0.95 }}
-      style={{
-        padding: '3.5rem',
-        background: 'rgba(255,255,255,0.015)',
-        backdropFilter: 'blur(24px)',
-        border: '1px solid rgba(251, 251, 254, 0.05)',
-        borderRadius: '24px',
-        position: 'relative',
-        overflow: 'hidden',
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '3rem',
-        boxShadow: '0 30px 60px rgba(0,0,0,0.4)',
-      }}
-      className="project-card"
-    >
-      {/* Background Hover Glow */}
-      <div className="hover-glow" style={{
-        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-        background: 'radial-gradient(circle at top right, rgba(47, 39, 206, 0.15), transparent 60%)',
-        opacity: 0, transition: 'opacity 0.5s ease', pointerEvents: 'none'
-      }} />
+    <Link href={project.href}>
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+        whileHover={{ scale: 0.98, y: -5 }}
+        whileTap={{ scale: 0.95 }}
+        style={{
+          background: 'rgba(5, 3, 21, 0.4)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '24px',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+        }}
+        className={`bento-card bento-span-c${project.colSpan} bento-span-r${project.rowSpan} group`}
+      >
+        {/* Background Image Preview */}
+        <div 
+          className="absolute inset-0 z-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700 bg-cover bg-center"
+          style={{ backgroundImage: `url(${project.image || ''})`, filter: 'grayscale(60%)' }}
+        />
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#050315] via-[#050315]/80 to-transparent" />
 
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <span style={{ 
-            fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.15em',
-            color: 'var(--gold)', textTransform: 'uppercase'
-          }}>
-            {project.tag}
-          </span>
-          <div className="arrow-icon" style={{ 
-            width: 32, height: 32, borderRadius: '50%', border: '1px solid var(--gold-dim)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'var(--text-muted)', transition: 'all 0.4s ease'
-          }}>
-            ↗
+        {/* Content */}
+        <div className="relative z-10 flex flex-col h-full p-8">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
+            <span style={{ 
+              fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.15em',
+              color: 'var(--accent)', textTransform: 'uppercase',
+              background: 'rgba(222, 220, 255, 0.1)', padding: '0.4rem 0.8rem', borderRadius: '100px',
+              border: '1px solid rgba(222, 220, 255, 0.2)'
+            }}>
+              {project.tag}
+            </span>
+            <div className="arrow-icon" style={{ 
+              width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--text-primary)', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}>
+              ↗
+            </div>
+          </div>
+
+          <div style={{ marginTop: 'auto' }}>
+            <h3 style={{ 
+              color: 'var(--text-primary)', fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)', 
+              fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '1rem'
+            }}>
+              {project.title}
+            </h3>
+            
+            <p style={{ 
+              fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--text-muted)', 
+              lineHeight: 1.7, fontWeight: 300, marginBottom: '2rem',
+              maxWidth: project.colSpan > 1 ? '80%' : '100%'
+            }}>
+              {project.desc}
+            </p>
+
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {project.stack.map(tech => (
+                <span key={tech} style={{
+                  fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.05em',
+                  color: 'var(--text-primary)', padding: '0.4rem 0.8rem',
+                  border: '1px solid rgba(255,255,255,0.1)', borderRadius: '100px',
+                  background: 'rgba(255,255,255,0.02)'
+                }}>
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-
-        <h3 style={{ 
-          color: 'var(--text-primary)', fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', 
-          fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1.2
-        }}>
-          {project.title}
-        </h3>
-      </div>
-
-      <div style={{ marginTop: 'auto' }}>
-        <p style={{ 
-          fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'var(--text-muted)', 
-          lineHeight: 1.8, fontWeight: 300, marginBottom: '2.5rem'
-        }}>
-          {project.desc}
-        </p>
-
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-          {project.stack.map(tech => (
-            <span key={tech} style={{
-              fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.05em',
-              color: 'var(--text-primary)', padding: '0.5rem 1rem',
-              border: '1px solid rgba(255,255,255,0.05)', borderRadius: '100px',
-              background: 'rgba(255,255,255,0.01)'
-            }}>
-              {tech}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <style>{`
-        .project-card:hover .hover-glow { opacity: 1 !important; }
-        .project-card:hover .arrow-icon { 
-          background: var(--gold); 
-          color: white !important; 
-          border-color: var(--gold) !important;
-          transform: rotate(45deg);
-        }
-      `}</style>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 }
 
 export default function ProjectsSection() {
   return (
-    <section id="proyectos" style={{
+    <section id="demos" style={{
       padding: 'var(--section-pad-y) 0',
       background: 'var(--bg-dark)',
       borderBottom: 'var(--border-delicate)',
     }}>
       <div className="container">
         
-        {/* Massive Typography Headers */}
-        <div style={{ marginBottom: '8rem' }}>
-          <div className="section-label">Casos de Estudio</div>
-          <h2 style={{ color: 'var(--text-primary)', fontSize: 'clamp(3rem, 6vw, 4.5rem)', maxWidth: '50rem' }}>
-            Infraestructura web<br />
-            <span className="text-gold" style={{ fontStyle: 'italic' }}>en producción real.</span>
+        {/* Header */}
+        <div style={{ marginBottom: '6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div className="section-label">Showcase</div>
+          <h2 style={{ color: 'var(--text-primary)', fontSize: 'clamp(3rem, 5vw, 4.5rem)', maxWidth: '55rem', lineHeight: 1.1 }}>
+            Nuestra carta de <span className="text-primary" style={{ fontStyle: 'italic', color: 'var(--primary)' }}>presentación.</span>
           </h2>
           <p style={{
             fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--text-muted)',
-            maxWidth: '35rem', marginTop: '2.5rem', lineHeight: 1.8, fontWeight: 300
+            maxWidth: '40rem', marginTop: '2rem', lineHeight: 1.8, fontWeight: 300
           }}>
-            Desarrollos B2B que actualmente procesan operaciones críticas, ventas B2B y logística sin interrupciones.
+            Explora una selección de nuestras mejores demostraciones técnicas. Interfaces ultra-pulidas, animaciones a 60fps y estéticas vanguardistas.
           </p>
         </div>
 
-        {/* Dynamic Asymmetric Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-          gap: '2rem'
-        }}>
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} />
+        {/* Bento Grid */}
+        <div className="portfolio-bento">
+          {BEST_DEMOS.map((p, i) => (
+            <DemoBentoCard key={p.id} project={p} index={i} />
           ))}
         </div>
 
-        {/* Explore More Button */}
         <div style={{ marginTop: '6rem', textAlign: 'center' }}>
-          <motion.a 
-            href="#"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="btn-ghost"
-            style={{ display: 'inline-flex', padding: '1.5rem 3rem' }}
-          >
-            Explorar Repositorio Completo
-          </motion.a>
+          <Link href="/demos">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn-primary"
+              style={{ display: 'inline-flex', padding: '1.25rem 3rem', background: 'var(--primary)', color: '#fff', borderRadius: '100px', fontWeight: 500, textDecoration: 'none' }}
+            >
+              Explorar Catálogo Completo (6 Demos)
+            </motion.div>
+          </Link>
         </div>
 
       </div>
+
+      <style>{`
+        .portfolio-bento {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          grid-auto-rows: minmax(320px, auto);
+          gap: 1.5rem;
+        }
+        .bento-span-c2 { grid-column: span 2; }
+        .bento-span-c1 { grid-column: span 1; }
+        .bento-span-r2 { grid-row: span 2; }
+        .bento-span-r1 { grid-row: span 1; }
+
+        .bento-card:hover .arrow-icon { 
+          background: var(--primary) !important; 
+          color: white !important; 
+          border-color: var(--primary) !important;
+          transform: rotate(45deg);
+        }
+
+        @media (max-width: 1024px) {
+          .portfolio-bento { grid-template-columns: repeat(2, 1fr); }
+          .bento-span-c1 { grid-column: span 1; }
+          .bento-span-c2 { grid-column: span 2; }
+          .bento-span-r2 { grid-row: span 1; } /* Flatten height on medium */
+        }
+        @media (max-width: 640px) {
+          .portfolio-bento { display: flex; flex-direction: column; gap: 1rem; }
+        }
+      `}</style>
     </section>
   );
 }
